@@ -1,3 +1,1 @@
-# Placeholder — replace with hamtek.ai (or chosen domain) when registered via Cloudflare
-# Then update DNS: CNAME hamtek.ai -> acunningham-ship-it.github.io
-# And remove this comment, leaving only the bare domain on line 1
+# To activate custom domain: remove this line, add bare domain (e.g. hamtek.ai) as the only content
