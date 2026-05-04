@@ -1,0 +1,16 @@
+{
+  "action": "published",
+  "release": {
+    "tag_name": "v1.4.0",
+    "name": "Release 1.4.0 — streaming responses + token budget",
+    "body": "## What's new\n\n### Streaming responses\nAll API calls now support `stream=True`, cutting time-to-first-token by ~60% on long generations.\n\n### Token budget control\nSet `max_tokens` per request or globally in config. Hard limits prevent runaway costs on batch jobs.\n\n### Breaking change\n`client.complete()` is removed — use `client.messages.create()` (deprecated since v1.2).\n\n## Install\n```\npip install mylib==1.4.0\n```",
+    "html_url": "https://github.com/acme/mylib/releases/tag/v1.4.0",
+    "author": {
+      "login": "acme-bot"
+    }
+  },
+  "repository": {
+    "full_name": "acme/mylib",
+    "html_url": "https://github.com/acme/mylib"
+  }
+}

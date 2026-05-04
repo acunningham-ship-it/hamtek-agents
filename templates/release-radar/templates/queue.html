@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Release Radar — Approval Queue</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    header { border-bottom: 1px solid #21262d; padding: 16px 24px; display: flex; align-items: center; gap: 12px; }
+    header h1 { font-size: 18px; font-weight: 600; }
+    header .badge { background: #1f6feb; color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 12px; }
+    main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+    .empty { text-align: center; color: #8b949e; padding: 64px 0; font-size: 16px; }
+    .entry { background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+    .entry.approved { border-color: #238636; }
+    .entry.dismissed { opacity: 0.5; }
+    .entry-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #21262d; }
+    .entry-header .repo { font-weight: 600; font-size: 15px; }
+    .entry-header .tag { background: #21262d; color: #79c0ff; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-family: monospace; }
+    .entry-header .time { margin-left: auto; color: #8b949e; font-size: 13px; }
+    .entry-header .status-badge { font-size: 12px; padding: 2px 8px; border-radius: 12px; }
+    .status-badge.pending { background: #3d2b08; color: #e3b341; }
+    .status-badge.approved { background: #0d2118; color: #3fb950; }
+    .status-badge.dismissed { background: #21262d; color: #8b949e; }
+    .platforms { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #21262d; }
+    .platform { background: #0d1117; padding: 16px 20px; }
+    .platform-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #8b949e; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .platform-label .icon { font-size: 14px; }
+    .draft-text { font-size: 13px; line-height: 1.6; color: #c9d1d9; white-space: pre-wrap; word-break: break-word; }
+    .tweet-thread { display: flex; flex-direction: column; gap: 8px; }
+    .tweet { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 1.5; }
+    .tweet-num { font-size: 11px; color: #8b949e; margin-bottom: 4px; }
+    .reddit-meta { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+    .reddit-meta strong { color: #79c0ff; }
+    .actions { padding: 14px 20px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #21262d; }
+    .btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-approve { background: #238636; color: #fff; }
+    .btn-dismiss { background: #21262d; color: #c9d1d9; }
+    .btn-link { background: none; color: #58a6ff; text-decoration: underline; font-size: 13px; padding: 6px 0; }
+    .platform-full { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <header>
+    <span style="font-size:20px">📡</span>
+    <h1>Release Radar</h1>
+    {% set pending = queue | selectattr('status', 'equalto', 'pending') | list %}
+    {% if pending %}
+    <span class="badge">{{ pending | length }} pending</span>
+    {% endif %}
+  </header>
+
+  <main>
+    {% if not queue %}
+    <div class="empty">
+      <p style="font-size:32px;margin-bottom:12px">📭</p>
+      <p>No releases queued yet.</p>
+      <p style="margin-top:8px;font-size:14px">Point your GitHub repo webhook to <code style="background:#21262d;padding:2px 6px;border-radius:4px">/webhook</code></p>
+    </div>
+    {% else %}
+    {% for entry in queue %}
+    <div class="entry {{ entry.status }}" id="entry-{{ entry.id }}">
+      <div class="entry-header">
+        <span class="repo">{{ entry.repo }}</span>
+        <span class="tag">{{ entry.tag }}</span>
+        <span class="status-badge {{ entry.status }}">{{ entry.status }}</span>
+        <span class="time">{{ entry.created_at[:10] }}</span>
+      </div>
+
+      <div class="platforms">
+        <!-- Tweet thread -->
+        <div class="platform">
+          <div class="platform-label"><span class="icon">𝕏</span> Tweet Thread</div>
+          <div class="tweet-thread">
+            {% for tweet in entry.drafts.tweet_thread %}
+            <div class="tweet">
+              <div class="tweet-num">{{ loop.index }}/{{ entry.drafts.tweet_thread | length }}</div>
+              {{ tweet }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="platform">
+          <div class="platform-label"><span class="icon">✉️</span> Newsletter Paragraph</div>
+          <div class="draft-text">{{ entry.drafts.newsletter_paragraph }}</div>
+        </div>
+
+        <!-- HN Post -->
+        <div class="platform">
+          <div class="platform-label"><span class="icon">🔶</span> Hacker News</div>
+          <div class="draft-text">{{ entry.drafts.hn_post }}</div>
+        </div>
+
+        <!-- Reddit -->
+        <div class="platform">
+          <div class="platform-label"><span class="icon">🤖</span> Reddit</div>
+          <div class="reddit-meta">r/<strong>{{ entry.drafts.reddit_draft.subreddit }}</strong> · {{ entry.drafts.reddit_draft.title }}</div>
+          <div class="draft-text">{{ entry.drafts.reddit_draft.body }}</div>
+        </div>
+      </div>
+
+      {% if entry.status == 'pending' %}
+      <div class="actions">
+        <button class="btn btn-approve" onclick="approve('{{ entry.id }}')">✓ Approve all</button>
+        <button class="btn btn-dismiss" onclick="dismiss('{{ entry.id }}')">Dismiss</button>
+        <a href="{{ entry.release_url }}" target="_blank" class="btn btn-link">View release ↗</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+  </main>
+
+  <script>
+    async function approve(id) {
+      await fetch(`/approve/${id}`, { method: 'POST' });
+      document.getElementById(`entry-${id}`).className = 'entry approved';
+      document.querySelector(`#entry-${id} .status-badge`).className = 'status-badge approved';
+      document.querySelector(`#entry-${id} .status-badge`).textContent = 'approved';
+      document.querySelector(`#entry-${id} .actions`).remove();
+    }
+    async function dismiss(id) {
+      await fetch(`/dismiss/${id}`, { method: 'POST' });
+      document.getElementById(`entry-${id}`).className = 'entry dismissed';
+      document.querySelector(`#entry-${id} .status-badge`).className = 'status-badge dismissed';
+      document.querySelector(`#entry-${id} .status-badge`).textContent = 'dismissed';
+      document.querySelector(`#entry-${id} .actions`).remove();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+Release Radar — End-to-End Test Proof
+Run date: 2026-05-03
+Test input: sample_payload.json (acme/mylib v1.4.0)
+
+--- Test output ---
+
+[test] Posting sample release payload to http://localhost:5050/webhook …
+[test] Status: 202
+[test] Response: {
+  "id": "1777820060930",
+  "status": "queued"
+}
+
+[test] Fetching queue to verify entry 1777820060930 …
+
+[test] Generated drafts:
+{
+  "hn_post": "mylib 1.4.0 is out. Two changes worth flagging for anyone using it in production.\n\nStreaming: every API call now accepts stream=True. On long generations we measured time-to-first-token dropping by roughly 60%. If you're rendering tokens progressively in a UI, that's the bigger of the two changes.\n\nToken budgets: max_tokens is configurable per-request or in the global config. The motivating case was batch jobs — a misbehaving prompt or a loop bug in caller code could previously rack up real spend before anyone noticed. Now it just stops at the cap.\n\nOne breaking change: client.complete() is removed. It's been deprecated since 1.2 with a warning, but the code is gone in 1.4. Replacement is client.messages.create() with the same arguments.\n\npip install mylib==1.4.0\nhttps://github.com/acme/mylib/releases/tag/v1.4.0",
+  "newsletter_paragraph": "mylib 1.4 landed this week with two practical additions worth knowing about. Every API call now supports stream=True, which cuts time-to-first-token by roughly 60% on long generations — useful for any UI that renders output as it arrives. The release also adds a max_tokens budget you can set per-request or globally, aimed at batch workloads where a runaway prompt could otherwise quietly burn through spend. One breaking change to plan for: client.complete() has been removed after being deprecated since 1.2, so if your code still calls it, switch to client.messages.create() before upgrading. Install with pip install mylib==1.4.0; full notes at https://github.com/acme/mylib/releases/tag/v1.4.0.",
+  "reddit_draft": {
+    "body": "Shipped today. Two additions and one breaking change.\n\n**Streaming**\n\nAny API call accepts `stream=True` now. Time-to-first-token is about 60% faster on long generations in our benchmarks. Useful if you're piping output into a UI or anything that benefits from progressive rendering.\n\n**Token budgets**\n\n`max_tokens` is settable per-request or in the global config. Main use case is batch jobs where a bad prompt or a loop bug on the caller side can quietly run up the bill. Hard cap, predictable cost ceiling.\n\n**Breaking: `client.complete()` removed**\n\nIt's been deprecated since 1.2. Swap to `client.messages.create()` — same argument shape, no other code changes needed.\n\nInstall:\n\n```\npip install mylib==1.4.0\n```\n\nFull notes: https://github.com/acme/mylib/releases/tag/v1.4.0\n\nHappy to answer questions in the comments.",
+    "subreddit": "Python",
+    "title": "mylib 1.4 released — streaming responses and per-request token budgets"
+  },
+  "tweet_thread": [
+    "mylib 1.4 ships streaming. Pass stream=True to any API call — time-to-first-token drops ~60% on long generations in our benchmarks. There's also a max_tokens budget you can set per-request or globally, which is mostly there to stop batch jobs from quietly burning money.",
+    "Breaking change to flag: client.complete() is gone in 1.4. It's been deprecated since 1.2, so if you've been ignoring the warning, now's the moment. Drop-in replacement is client.messages.create().\n\npip install mylib==1.4.0\nhttps://github.com/acme/mylib/releases/tag/v1.4.0"
+  ]
+}
+
+[PASS] Release Radar processed acme/mylib v1.4.0 successfully.
+
+--- What was tested ---
+1. Flask server started on :5050
+2. GitHub release webhook payload fired via HTTP POST to /webhook
+3. Claude called to generate platform-specific drafts (no mocks)
+4. Drafts stored in queue.json via /queue.json endpoint
+5. /approve and /dismiss endpoints available for 1-click actions
+
+All 4 draft types generated:
+  ✓ Tweet thread (2 tweets)
+  ✓ HN post (3 paragraphs)
+  ✓ Reddit draft (r/Python, full body)
+  ✓ Newsletter paragraph

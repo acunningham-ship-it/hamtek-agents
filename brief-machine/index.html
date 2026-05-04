@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Pre-Call Homework Template — Free Download</title>
+  <meta name="description" content="The 6-question research frame the top AEs run before every discovery call. One page. Yours free.">
+  <meta property="og:title" content="The rep on the other end of that call already knew who was in the room.">
+  <meta property="og:description" content="The 6-question research frame the top AEs run before every discovery call. One page. Yours free.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a class="nav-wordmark" href="index.html">Brief Machine</a>
+    <a class="nav-link" href="core.html">Full access — $199/mo</a>
+  </nav>
+
+  <!-- Hero image: laptop on wooden desk, open notebook, warm side light, no person -->
+  <div class="hero-image-wrap">
+    <img
+      src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80&auto=format"
+      alt="An open laptop and notebook on a wooden desk, warm morning light, no one in frame"
+      loading="eager"
+    >
+  </div>
+
+  <!-- Hero text — D3 rule: "Brief Machine", "AI", "automated", "meeting prep" do NOT appear in headline, subhead, or first 50 words -->
+  <div class="container">
+    <div class="hero-text">
+      <h1>The rep on the other end of that call already knew who was in the room.</h1>
+      <p class="subhead">The 6-question research frame the top AEs run before every discovery call. One page. Yours free.</p>
+    </div>
+  </div>
+
+  <!-- Lead paragraph: verbatim 2am search from dossier -->
+  <div class="section">
+    <div class="container">
+
+      <div class="lead-para">
+        At 11:18pm the night before six back-to-back discovery calls, Marcus typed <code>how to not look like you just googled someone on a sales call</code> into Google. He found checklists. Frameworks. "5 questions to ask before every call." He read three of them and closed the tab. None of them ran on their own.
+      </div>
+
+      <!-- Body Section 1 — The Rationalization -->
+      <div class="body-section">
+        <p>The problem isn't that you skip the research. The problem is you've built an entire private story around why skipping it is fine.</p>
+
+        <p>"Too much time spent doing research = not enough time reaching out and calling." You've said that. It's not wrong. It's just what you tell yourself so the googling on the Zoom loading screen feels like a tactical choice instead of what it actually is.</p>
+
+        <p>The top AEs on your leaderboard aren't spending 20 minutes per call on research. They're spending 30 seconds. Not because they skip it — because their system runs before they think about it.</p>
+      </div>
+
+      <!-- Body Section 2 — The Gap -->
+      <div class="body-section">
+        <p>There are AEs at your company right now who know the prospect's last LinkedIn post before the call starts. Who reference the product launch from three weeks ago in the first two minutes and watch the buyer lean forward. Who know the CRM switch happened six weeks ago — the one your product integrates with.</p>
+
+        <p>You've been in calls with these reps. You've watched deals advance faster than yours. You assumed it was talent or how long they'd been in the seat.</p>
+
+        <p>It's not. It's a 30-second system that ran before you opened your calendar.</p>
+      </div>
+
+      <!-- Body Section 3 — The Offer -->
+      <div class="body-section">
+        <p>The Pre-Call Homework Template is the 6-question research frame those AEs run before every discovery call.</p>
+
+        <p>Not a checklist of things to google. A sequence — in order — that produces a useful brief on any prospect in under 5 minutes with the right inputs. The top question on the list is the one most AEs have never thought to answer before a call. It's also the one AmbassadorAny5979 credited with his first-call-to-second-call rate going up significantly.</p>
+
+        <p>One page. Download, print, fill before your next call. Free.</p>
+      </div>
+
+      <hr class="rule">
+
+      <!-- CTA -->
+      <div class="cta-section" id="download-section">
+
+        <div class="form-state" id="form-state">
+          <p class="cta-label">Download the template. Run it before your next call.</p>
+          <p class="cta-sub">Delivered to your inbox. No pitch sequence. Just the template.</p>
+          <form class="email-form" id="download-form" action="#" method="post">
+            <input
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+              aria-label="Email address"
+            >
+            <button type="submit" class="btn">Get the template</button>
+          </form>
+        </div>
+
+        <!-- Thank-you state: Tribe marker activation -->
+        <div class="ty-state" id="ty-state">
+          <div class="tribe-marker">You just ran your first brief.</div>
+          <p style="text-align:center; color: var(--text-muted); font-style: italic; font-size: 0.95rem;">
+            Check your inbox — the template is on its way.<br>
+            Tomorrow: what the top AE on your team does differently.
+          </p>
+        </div>
+
+      </div>
+
+      <hr class="rule">
+
+      <!-- Credibility anchor — positioned post-CTA, pre-footer -->
+      <div class="pullquote">
+        <p>"When I started doing this consistently, my first-call-to-second-call rate went up significantly. The biggest unlock was referencing their LinkedIn posts, people always react positively to that."</p>
+        <p class="attribution">— AmbassadorAny5979, <a href="https://www.reddit.com/r/sales/comments/1rn7u9w/" target="_blank" rel="noopener">r/sales</a></p>
+      </div>
+
+      <p style="font-size: 0.875rem; color: var(--text-muted); text-align: center; font-style: italic;">
+        The template is free. If you want the system that runs it for you automatically — <a href="tripwire.html">Brief Machine starts at $37</a>.
+      </p>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>Brief Machine · <a href="tripwire.html">$37 trial</a> · <a href="core.html">Full access</a> · <a href="mailto:hello@briefmachine.com">hello@briefmachine.com</a></p>
+    <p style="margin-top: 8px;">© 2026 Brief Machine. Cancel anytime with a single email.</p>
+  </footer>
+
+  <script>
+    document.getElementById('download-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // TODO: wire to email service (ConvertKit / Mailchimp / Resend endpoint)
+      document.getElementById('form-state').classList.add('hidden');
+      document.getElementById('ty-state').classList.add('visible');
+    });
+  </script>
+
+</body>
+</html>

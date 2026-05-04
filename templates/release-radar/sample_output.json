@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1777820060930",
+    "repo": "acme/mylib",
+    "tag": "v1.4.0",
+    "release_name": "Release 1.4.0 \u2014 streaming responses + token budget",
+    "release_url": "https://github.com/acme/mylib/releases/tag/v1.4.0",
+    "created_at": "2026-05-03T14:54:20Z",
+    "status": "pending",
+    "drafts": {
+      "tweet_thread": [
+        "mylib 1.4 ships streaming. Pass stream=True to any API call \u2014 time-to-first-token drops ~60% on long generations in our benchmarks. There's also a max_tokens budget you can set per-request or globally, which is mostly there to stop batch jobs from quietly burning money.",
+        "Breaking change to flag: client.complete() is gone in 1.4. It's been deprecated since 1.2, so if you've been ignoring the warning, now's the moment. Drop-in replacement is client.messages.create().\n\npip install mylib==1.4.0\nhttps://github.com/acme/mylib/releases/tag/v1.4.0"
+      ],
+      "hn_post": "mylib 1.4.0 is out. Two changes worth flagging for anyone using it in production.\n\nStreaming: every API call now accepts stream=True. On long generations we measured time-to-first-token dropping by roughly 60%. If you're rendering tokens progressively in a UI, that's the bigger of the two changes.\n\nToken budgets: max_tokens is configurable per-request or in the global config. The motivating case was batch jobs \u2014 a misbehaving prompt or a loop bug in caller code could previously rack up real spend before anyone noticed. Now it just stops at the cap.\n\nOne breaking change: client.complete() is removed. It's been deprecated since 1.2 with a warning, but the code is gone in 1.4. Replacement is client.messages.create() with the same arguments.\n\npip install mylib==1.4.0\nhttps://github.com/acme/mylib/releases/tag/v1.4.0",
+      "reddit_draft": {
+        "subreddit": "Python",
+        "title": "mylib 1.4 released \u2014 streaming responses and per-request token budgets",
+        "body": "Shipped today. Two additions and one breaking change.\n\n**Streaming**\n\nAny API call accepts `stream=True` now. Time-to-first-token is about 60% faster on long generations in our benchmarks. Useful if you're piping output into a UI or anything that benefits from progressive rendering.\n\n**Token budgets**\n\n`max_tokens` is settable per-request or in the global config. Main use case is batch jobs where a bad prompt or a loop bug on the caller side can quietly run up the bill. Hard cap, predictable cost ceiling.\n\n**Breaking: `client.complete()` removed**\n\nIt's been deprecated since 1.2. Swap to `client.messages.create()` \u2014 same argument shape, no other code changes needed.\n\nInstall:\n\n```\npip install mylib==1.4.0\n```\n\nFull notes: https://github.com/acme/mylib/releases/tag/v1.4.0\n\nHappy to answer questions in the comments."
+      },
+      "newsletter_paragraph": "mylib 1.4 landed this week with two practical additions worth knowing about. Every API call now supports stream=True, which cuts time-to-first-token by roughly 60% on long generations \u2014 useful for any UI that renders output as it arrives. The release also adds a max_tokens budget you can set per-request or globally, aimed at batch workloads where a runaway prompt could otherwise quietly burn through spend. One breaking change to plan for: client.complete() has been removed after being deprecated since 1.2, so if your code still calls it, switch to client.messages.create() before upgrading. Install with pip install mylib==1.4.0; full notes at https://github.com/acme/mylib/releases/tag/v1.4.0."
+    }
+  },
+  {
+    "id": "1777820011910",
+    "repo": "acme/mylib",
+    "tag": "v1.4.0",
+    "release_name": "Release 1.4.0 \u2014 streaming responses + token budget",
+    "release_url": "https://github.com/acme/mylib/releases/tag/v1.4.0",
+    "created_at": "2026-05-03T14:53:31Z",
+    "status": "pending",
+    "drafts": {
+      "tweet_thread": [
+        "mylib v1.4.0 is out. stream=True on every API call now, and first token lands about 60% faster on long generations. pip install mylib==1.4.0",
+        "Also added max_tokens, settable per-request or globally in config. Useful if you've ever woken up to a batch job that quietly burned through a budget.",
+        "Heads up: client.complete() is gone. Switch to client.messages.create() (it's been deprecated since 1.2). Notes: github.com/acme/mylib/releases/tag/v1.4.0"
+      ],
+      "hn_post": "mylib 1.4.0 just shipped with two things worth flagging.\n\nFirst, every API call now takes stream=True. The release notes report roughly 60% faster time-to-first-token on long generations, which matters less for batch and a lot for anything user-facing. The second is max_tokens, settable per-request or globally in config. Handy if you've ever had a misbehaving loop quietly eat through a budget overnight.\n\nOne breaking change: client.complete() is removed. It's been deprecated since 1.2, so if you've been ignoring the warning, now's the time. Replacement is client.messages.create(). Notes: https://github.com/acme/mylib/releases/tag/v1.4.0",
+      "reddit_draft": {
+        "subreddit": "Python",
+        "title": "mylib 1.4.0: streaming + token budgets, and client.complete() is finally gone",
+        "body": "Just shipped 1.4.0. Two real changes and one removal worth knowing about.\n\n**Streaming**: pass `stream=True` to any API call. Roughly 60% faster time-to-first-token on long generations per the release notes. If you're rendering output in a UI, this is probably the one to care about.\n\n**Token budgets**: `max_tokens` works per-request, or you can set a global cap in config. Useful for batch jobs where a runaway loop can burn through a budget before anyone notices.\n\n**Breaking**: `client.complete()` is removed. Deprecated since 1.2, so if you've been getting the warning, time to switch. Replacement is `client.messages.create()`.\n\nInstall: `pip install mylib==1.4.0`\n\nNotes: https://github.com/acme/mylib/releases/tag/v1.4.0"
+      },
+      "newsletter_paragraph": "mylib 1.4.0 dropped this week. The headline is streaming \u2014 pass `stream=True` to any call and time-to-first-token drops by roughly 60% on long generations, which is the difference between a UI that feels responsive and one that doesn't. The other addition is `max_tokens`, settable per-request or globally, so you can cap cost before a batch job surprises you. One thing to watch if you're upgrading from anything older than 1.2: `client.complete()` is finally gone; switch to `client.messages.create()`. pip install mylib==1.4.0."
+    }
+  }
+]
